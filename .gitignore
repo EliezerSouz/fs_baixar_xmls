@@ -31,6 +31,8 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+/xmls/
+/acessos/
 
 # Symbolication related
 app.*.symbols

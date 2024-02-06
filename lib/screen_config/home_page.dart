@@ -4,18 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:Baixar_Xml/modulos/carregarDados.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomePage(),
-    );
-  }
-}
-
 class HomePage extends StatefulWidget {
   const HomePage({Key? key});
 
@@ -68,6 +56,7 @@ class _HomePageState extends State<HomePage> {
 
   late Future<void> _downloadXmls = Future.value();
   String radioValue = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -453,5 +442,42 @@ class _HomePageState extends State<HomePage> {
         });
       }
     }
+  }
+  Widget _buildModeloNotaContainer() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Modelo Nota',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 14.0,
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.white),
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildCheckBox('NFe', nfeSelecionado, (value) {
+                setState(() {
+                  nfeSelecionado = value ?? false;
+                });
+              }),
+              _buildCheckBox('NFCe', nfceSelecionado, (value) {
+                setState(() {
+                  nfceSelecionado = value ?? false;
+                });
+              }),
+            ],
+          ),
+        ),
+        const SizedBox(height: 14),
+      ],
+    );
   }
 }

@@ -1,6 +1,7 @@
 List<String> carregarServidor(String empresa) {
   List<String> dados = [];
   switch (empresa) {
+    //Centrar Server
     case "4S Auto Peças":
       dados = [
         "mysql.farsoftsystems.com.br",
@@ -176,6 +177,9 @@ List<String> carregarServidor(String empresa) {
         "farsoft_vasquinho",
         "Systems#Farcorp#2022#**"
       ];
+
+      //Servidor DDNS
+
       break;
   }
   return dados;

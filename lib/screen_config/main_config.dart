@@ -419,7 +419,7 @@ class _HomePageState extends State<HomePage> {
               'localhost',
               'root',
               '$nomeBanco',
-              'farsoft01',
+              dadosServidor[0],
               dataInicialControler.text,
               dataFinalControler.text,
               3306,

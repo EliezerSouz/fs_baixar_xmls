@@ -26,13 +26,12 @@ migrate_working_dir/
 **/ios/Flutter/.last_build_id
 .dart_tool/
 .flutter-plugins
-.carregar_servidor.dart
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
 /build/
 /xmls/
-*/lib/acessos/
+/lib/acessos/
 
 # Symbolication related
 app.*.symbols

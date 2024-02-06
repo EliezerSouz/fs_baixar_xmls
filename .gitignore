@@ -29,9 +29,9 @@ migrate_working_dir/
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
+/lib/acessos/
 /build/
 /xmls/
-/lib/acessos/
 
 # Symbolication related
 app.*.symbols

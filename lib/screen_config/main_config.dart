@@ -1,4 +1,5 @@
-import 'package:Baixar_Xml/acessos/carregar_servidor.dart';
+import 'package:Baixar_Xml/acessos/carregar_conexao.dart';
+import 'package:Baixar_Xml/acessos/class.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:Baixar_Xml/modulos/carregarDados.dart';
@@ -28,58 +29,8 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController empresaControler = TextEditingController();
 
   String selectedCompany = '';
-  String selectServer = 'Central Server';
-  var clientesCentralServer = [
-    "",
-    "4S Auto Peças",
-    "Adnaldo",
-    "Alcana Veste",
-    "Apac",
-    "Apac Feminina",
-    "AP Machado",
-    "Arauto",
-    "Auto Vale Peças",
-    "Corel - LGM",
-    "Corel Portas",
-    "Distribuidora Prime",
-    "Fortkol",
-    "JF Parabrisas",
-    "Mariano Auto Peças",
-    "Mello Auto Peças",
-    "Mesquita Auto Peças",
-    "Moto Show Boutique",
-    "Nathan",
-    "O Especialista",
-    "Paluma Distribuidora",
-    "Santos",
-    "Scanorte Sul",
-    "Stock",
-    "Vasquinho Filial",
-    "Vasquinho Radiadores"
-  ];
-  var clientesDdns = [
-    "",
-    "AP Alfenas",
-    "Artronic",
-    "Cardoso Auto Peças",
-    "Lider",
-    "Brito",
-    "Canezin",
-    "Eccus",
-    "JJ Alfenas",
-    "JJ Machado",
-    "Joaquim Siqueira",
-    "Mianti",
-    "Moto Show",
-    "O Especialista",
-    "Peretto",
-    "Perimetral",
-    "Pé Direito",
-    "Rey Auto Peças",
-    "Vidraçaria",
-    "Wandinho Tratores"
-  ];
-
+  String selectServer = '';
+  
   bool nfeSelecionado = false;
   bool nfceSelecionado = false;
   bool carregando = false;
@@ -185,11 +136,11 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 14.0),
               _buildComboBoxServidor(
                 'Servidor',
-                ['Central Server', 'DDNS', 'Local'],
+                servidor,
                 selectServer,
                 (value) {
                   setState(() {
-                    selectServer = value ?? 'Central Server';
+                    selectServer = value ?? '';
                     selectedCompany = '';
                   });
                 },
@@ -416,10 +367,10 @@ class _HomePageState extends State<HomePage> {
 
         if (nomeBanco.isNotEmpty) {
           await carregarDadosXml(
-              'localhost',
-              'root',
-              '$nomeBanco',
               dadosServidor[0],
+              dadosServidor[1],
+              '$nomeBanco',
+              dadosServidor[2],
               dataInicialControler.text,
               dataFinalControler.text,
               3306,

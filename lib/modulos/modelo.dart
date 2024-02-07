@@ -18,8 +18,7 @@ class NFe {
 
       if (ideElement != null) {
         mod = _getChildText(ideElement, 'mod');
-        chaveAcesso = _getChildAttribute(infNFeElement, 'Id').substring(3);
-        // ... inicialize outros campos conforme necessário
+        chaveAcesso = _getChildAttribute(infNFeElement, 'Id').substring(3);        
       } else {
         print('ide Element Not Found');
       }
@@ -54,4 +53,16 @@ class NFe {
       return ''; // ou outra estratégia, dependendo do seu caso
     }
   }
+}
+
+class Monofasico{
+  late String notaFiscal;
+  late String codigo;
+  late String data;
+  late String referencia;
+  late String descricao;
+  late String unMedida;
+  late String ncm;
+  late double quantidade;
+  late double total;  
 }

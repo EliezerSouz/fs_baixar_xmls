@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:Baixar_Xml/db/conexao_monofasico/serjao.dart';
+import 'package:Baixar_Xml/modulos/modelo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:mysql1/mysql1.dart';
 import 'package:Baixar_Xml/db/conection.dart';
+import 'package:flutter_excel/excel.dart';
 
 Future<List<Map<String, dynamic>>> getDadosXmls(
     String host,
@@ -25,7 +28,8 @@ Future<List<Map<String, dynamic>>> getDadosXmls(
     sendMessage(
         scaffoldMessenger,
         "Conectado ao banco de dados $nomeCliente... Aguarde... Executando consulta...",
-        2, Colors.blue.shade800);
+        2,
+        Colors.blue.shade800);
     print("Conectado ao banco de dados $db. Executando consulta...");
     List<Map<String, dynamic>> dataList = [];
     int i = 0, total = 0;
@@ -82,16 +86,19 @@ Future<List<Map<String, dynamic>>> getDadosXmls(
     sendMessage(
         scaffoldMessenger,
         "Cópia finalizada: $total xmls... De: ${formatDate(dataInicial)} até ${formatDate(dataFinal)}",
-        4, Colors.blue.shade800);
+        4,
+        Colors.blue.shade800);
     print("Total: $total notas eletrônicas. Cliente $db");
 
     return dataList;
   } on TimeoutException catch (e) {
-    sendMessage(scaffoldMessenger, "A consulta excedeu o tempo limite: $e", 5, Colors.red.shade800);
+    sendMessage(scaffoldMessenger, "A consulta excedeu o tempo limite: $e", 5,
+        Colors.red.shade800);
     print("A consulta excedeu o tempo limite: $e");
     return [];
   } on SocketException catch (e) {
-    sendMessage(scaffoldMessenger, "Erro de soquete: $e", 5, Colors.red.shade800);
+    sendMessage(
+        scaffoldMessenger, "Erro de soquete: $e", 5, Colors.red.shade800);
     print("Erro de soquete: $e");
     return [];
   } finally {
@@ -99,20 +106,100 @@ Future<List<Map<String, dynamic>>> getDadosXmls(
   }
 }
 
-
 String formatDate(String date) {
   final parsedDate = DateTime.parse(date);
   final formattedDate = DateFormat('dd/MM/yyyy').format(parsedDate);
   return formattedDate;
 }
 
-void sendMessage(
-    ScaffoldMessengerState scaffoldMessenger, String message, int duracao, Color cor) {
+void sendMessage(ScaffoldMessengerState scaffoldMessenger, String message,
+    int duracao, Color cor) {
   scaffoldMessenger.showSnackBar(
     SnackBar(
       content: Center(child: Text(message)),
       duration: Duration(seconds: duracao),
-      backgroundColor:cor,
+      backgroundColor: cor,
     ),
   );
+}
+
+Future<List<Map<String, dynamic>>> getDadosMonofasicos(
+    String host,
+    int port,
+    String user,
+    String db,
+    String password,
+    String dataInicial,
+    String dataFinal,
+    ScaffoldMessengerState scaffoldMessenger,
+    String nomeCliente) async {
+  final conn = await getConnection(host, port, user, db, password);
+
+  try {
+    sendMessage(
+        scaffoldMessenger,
+        "Conectado ao banco de dados $nomeCliente... Aguarde... Executando consulta...",
+        2,
+        Colors.blue.shade800);
+    print("Conectado ao banco de dados $db. Executando consulta...");
+    List<Map<String, dynamic>> dataList = [];
+    StringMonofasicos stringMonofasicos = StringMonofasicos();
+    String queryString = stringMonofasicos.getString(db);
+    
+    var results = await conn.query(queryString , [dataInicial, dataFinal]);
+
+    var excel = Excel.createExcel();
+    excel.tables.keys.toList().forEach((key) {
+      if (key != 'Monofasico') {
+        excel.tables.remove(key);
+      }
+    });
+
+    var sheet = excel['Monofasico'];
+
+    sheet.appendRow([
+      'Nota Fiscal',
+      'Codigo',
+      'Data',
+      'Referencia',
+      'Descricao',
+      'UN',
+      'NCM',
+      'QTD',
+      'Total'
+    ]);
+
+    for (var row in results) {
+      sheet.appendRow([
+        row['ide_notafiscal'],
+        row['Codigo'],
+        row['Data'],
+        row['Referencia'],
+        row['Descricao'],
+        row['UN'],
+        row['NCM'],
+        row['QTD'],
+        row['Total']
+      ]);
+    }
+    var excelBytes = excel.encode();
+    if (excelBytes != null) {
+      File('output.xlsx').writeAsBytesSync(excelBytes);
+    }
+    await Future.delayed(const Duration(seconds: 3));
+
+    return dataList;
+  } on TimeoutException catch (e) {
+    sendMessage(scaffoldMessenger, "A consulta excedeu o tempo limite: $e", 5,
+        Colors.red.shade800);
+    print("A consulta excedeu o tempo limite: $e");
+    return [];
+  } on SocketException catch (e) {
+    sendMessage(
+        scaffoldMessenger, "Erro de soquete: $e", 5, Colors.red.shade800);
+    print("Erro de soquete: $e");
+    return [];
+  } finally {
+    await conn.close();
+  }
 }

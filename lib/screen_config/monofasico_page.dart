@@ -306,7 +306,7 @@ class _MonofasicoPageState extends State<MonofasicoPage> {
     );
   }
 
-  Future<void> _baixarXmls() async {
+  Future<void> _gerarMonofasico() async {
     setState(() {
       carregando = true;
     });
@@ -326,7 +326,7 @@ class _MonofasicoPageState extends State<MonofasicoPage> {
         print("Valor da empresaControler: ${empresaControler.text}");
 
         if (nomeBanco.isNotEmpty) {
-          await carregarDadosXml(
+          await carregarDadosMonofasico(
               dadosServidor[0],
               dadosServidor[1],
               '$nomeBanco',
@@ -334,8 +334,6 @@ class _MonofasicoPageState extends State<MonofasicoPage> {
               dataInicialControler.text,
               dataFinalControler.text,
               3306,
-              nfe,
-              nfce,
               context,
               selectedCompany);
         }
@@ -343,7 +341,7 @@ class _MonofasicoPageState extends State<MonofasicoPage> {
           carregando = false;
         });
       } else {
-        await carregarDadosXml(
+        await carregarDadosMonofasico(
             dadosServidor[0],
             dadosServidor[1],
             dadosServidor[2],
@@ -351,8 +349,6 @@ class _MonofasicoPageState extends State<MonofasicoPage> {
             dataInicialControler.text,
             dataFinalControler.text,
             3306,
-            nfe,
-            nfce,
             context,
             selectedCompany);
         setState(() {
@@ -408,7 +404,7 @@ class _MonofasicoPageState extends State<MonofasicoPage> {
       } else {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           setState(() {
-            _downloadXmls = _baixarXmls();
+            _downloadXmls = _gerarMonofasico();
           });
         });
       }

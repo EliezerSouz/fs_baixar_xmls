@@ -6,6 +6,7 @@ import 'package:Baixar_Xml/modulos/modelo.dart';
 import 'package:file_picker/file_picker.dart';
 
 var dadosXml = <Map<String, dynamic>>[];
+var dadosMonofasicos = <Map<String, dynamic>>[];
 
 Future<void> carregarDadosXml(
     String host,
@@ -69,6 +70,28 @@ Future<void> carregarDadosXml(
       }
     }
   }
+}
+
+Future<void> carregarDadosMonofasico(
+    String host,
+    user,
+    dbName,
+    password,
+    dataInicial,
+    dataFinal,
+    int port,
+    BuildContext context,
+    _nomeCliente) async {
+  dadosMonofasicos = await getDadosMonofasicos(
+      host,
+      port,
+      user,
+      dbName,
+      password,
+      dataInicial,
+      dataFinal,
+      ScaffoldMessenger.of(context),
+      _nomeCliente);
 }
 
 Future<String?> _selecionarDiretorioDestino() async {

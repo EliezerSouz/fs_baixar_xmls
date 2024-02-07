@@ -310,13 +310,9 @@ class _MonofasicoPageState extends State<MonofasicoPage> {
     setState(() {
       carregando = true;
     });
-    var nfe = '';
-    var nfce = '';
     if (nfeSelecionado) {
-      nfe = '55';
     }
     if (nfceSelecionado) {
-      nfce = '65';
     }
     try {
       var dadosServidor = carregarServidor(selectedCompany);

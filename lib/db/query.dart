@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:Baixar_Xml/db/conexao_monofasico/serjao.dart';
-import 'package:Baixar_Xml/modulos/modelo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -145,7 +144,7 @@ Future<List<Map<String, dynamic>>> getDadosMonofasicos(
     List<Map<String, dynamic>> dataList = [];
     StringMonofasicos stringMonofasicos = StringMonofasicos();
     String queryString = stringMonofasicos.getString(db);
-    
+
     var results = await conn.query(queryString , [dataInicial, dataFinal]);
 
     var excel = Excel.createExcel();

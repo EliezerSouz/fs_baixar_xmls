@@ -3,14 +3,14 @@ import 'dart:async';
 import 'package:mysql1/mysql1.dart';
 
 Future<MySqlConnection> getConnection(
-    String _host, int _port, String _user, String _db, String _password) async {
+    String host, int port, String useriD, String db, String password) async {
   final settings = ConnectionSettings(
-    host: _host,
-    port: _port,
-    user: _user,
-    db: _db,
-    password: _password,
+    host: host,
+    port: port,
+    user: useriD,
+    db: db,
+    password: password,
   );
-  print('Conexão com o servidor na porta $_port ... ');
+  print('Conexão com o servidor na porta $port ... ');
   return await MySqlConnection.connect(settings);
 }

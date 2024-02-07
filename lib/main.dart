@@ -2,19 +2,23 @@ import 'package:Baixar_Xml/screen_config/home_page.dart';
 import 'package:Baixar_Xml/screen_config/monofasico_page.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: NavigationScreen(),
+      home: const NavigationScreen(),
     );
   }
 }
 
 class NavigationScreen extends StatefulWidget {
+  const NavigationScreen({super.key});
+
   @override
   _NavigationScreenState createState() => _NavigationScreenState();
 }
@@ -23,7 +27,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
-    HomePage(),
+    const HomePage(),
     //XmlScreen(),
     MonofasicoPage(),
   ];

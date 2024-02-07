@@ -18,13 +18,13 @@ Future<List<Map<String, dynamic>>> getDadosXmls(
     String nfe,
     String nfce,
     ScaffoldMessengerState scaffoldMessenger,
-    String _nomeCliente) async {
+    String nomeCliente) async {
   final conn = await getConnection(host, port, user, db, password);
 
   try {
     sendMessage(
         scaffoldMessenger,
-        "Conectado ao banco de dados $_nomeCliente... Aguarde... Executando consulta...",
+        "Conectado ao banco de dados $nomeCliente... Aguarde... Executando consulta...",
         2, Colors.blue.shade800);
     print("Conectado ao banco de dados $db. Executando consulta...");
     List<Map<String, dynamic>> dataList = [];
@@ -77,7 +77,7 @@ Future<List<Map<String, dynamic>>> getDadosXmls(
       print("Total NFCe: $i. Cliente $db.");
     }
 
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 3));
 
     sendMessage(
         scaffoldMessenger,
@@ -99,6 +99,7 @@ Future<List<Map<String, dynamic>>> getDadosXmls(
   }
 }
 
+
 String formatDate(String date) {
   final parsedDate = DateTime.parse(date);
   final formattedDate = DateFormat('dd/MM/yyyy').format(parsedDate);
@@ -109,7 +110,7 @@ void sendMessage(
     ScaffoldMessengerState scaffoldMessenger, String message, int duracao, Color cor) {
   scaffoldMessenger.showSnackBar(
     SnackBar(
-      content: Container(child: Center(child: Text(message))),
+      content: Center(child: Text(message)),
       duration: Duration(seconds: duracao),
       backgroundColor:cor,
     ),

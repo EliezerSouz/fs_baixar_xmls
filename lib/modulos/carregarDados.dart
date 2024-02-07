@@ -47,7 +47,7 @@ Future<void> carregarDadosXml(
         cnpj = nfe.CNPJ;
         filename = '${chaveAcesso}.xml';
         caminhoDoArquivo +=
-            '/' + vigenciaXml + '/' + _nomeCliente + ' - ' + cnpj;
+            '/' + _nomeCliente + ' - ' + cnpj + '/' + vigenciaXml;
 
         if (modNfe == '55') {
           caminhoDoArquivo += '/NFe';

@@ -13,11 +13,11 @@ from
      join nota_itens ni on ni.nota_cabecalho_id = nc.id
      join produto p on p.id = ni.produto_id
 where
-     nc.nota_naturezaoperacao_id in (35, 69, 85)
+     nc.nota_naturezaoperacao_id in (4, 32, 60, 62)
      and nc.fs_fase = 02
      and ni.empresa_id = 1
-     and nc.ide_demi >= :DataInicio
-     and nc.ide_demi <= :DataFim
+     and nc.ide_demi >= ?
+     and nc.ide_demi <= ?
      and ni.prod_ncm in (
           '40161010',
           '40169990',

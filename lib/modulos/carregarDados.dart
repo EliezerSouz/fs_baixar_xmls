@@ -25,7 +25,7 @@ Future<void> carregarDadosXml(
       dataFinal, nfe, nfce, ScaffoldMessenger.of(context), _nomeCliente);
 
   String filename = '', modNfe = '', vigenciaXml = '', chaveAcesso = '', cnpj;
-  String? diretorioEscolhido = await _selecionarDiretorioDestino();
+  String? diretorioEscolhido = await selecionarDiretorioDestino();
 
   if (diretorioEscolhido != null) {
     for (var xml in dadosXml) {
@@ -94,7 +94,7 @@ Future<void> carregarDadosMonofasico(
       _nomeCliente);
 }
 
-Future<String?> _selecionarDiretorioDestino() async {
+Future<String?> selecionarDiretorioDestino() async {
   String? result = await FilePicker.platform.getDirectoryPath();
   if (result != null) {
     return result;

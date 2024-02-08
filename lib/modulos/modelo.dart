@@ -54,15 +54,3 @@ class NFe {
     }
   }
 }
-
-class Monofasico{
-  late String notaFiscal;
-  late String codigo;
-  late String data;
-  late String referencia;
-  late String descricao;
-  late String unMedida;
-  late String ncm;
-  late double quantidade;
-  late double total;  
-}

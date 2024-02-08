@@ -1,5 +1,6 @@
 import 'package:Baixar_Xml/acessos/carregar_conexao.dart';
 import 'package:Baixar_Xml/acessos/class.dart';
+import 'package:Baixar_Xml/screen_config/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:Baixar_Xml/modulos/carregarDados.dart';
@@ -12,15 +13,9 @@ class MonofasicoPage extends StatefulWidget {
 }
 
 class _MonofasicoPageState extends State<MonofasicoPage> {
-  final TextEditingController dataInicialControler = TextEditingController();
-  final TextEditingController dataFinalControler = TextEditingController();
-  final TextEditingController empresaControler = TextEditingController();
 
-  String selectedCompany = '';
-  String selectServer = '';
-  
-  bool nfeSelecionado = false;
-  bool nfceSelecionado = false;
+  //String selectedCompany = '';
+  //String selectServer = '';  
   bool carregando = false;
 
   Future<void> _selecionarDataInicial(BuildContext context) async {
@@ -230,7 +225,7 @@ class _MonofasicoPageState extends State<MonofasicoPage> {
                     empresaControler.text = value;
                   },
                   decoration: InputDecoration(
-                    labelText: 'Nome do Banco de Dados',
+                    labelText: 'Banco de Dados',
                   ),
                 ),
               ],
@@ -310,10 +305,6 @@ class _MonofasicoPageState extends State<MonofasicoPage> {
     setState(() {
       carregando = true;
     });
-    if (nfeSelecionado) {
-    }
-    if (nfceSelecionado) {
-    }
     try {
       var dadosServidor = carregarServidor(selectedCompany);
 

@@ -11,14 +11,14 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  final TextEditingController dataInicialControler = TextEditingController();
-  final TextEditingController dataFinalControler = TextEditingController();
-  final TextEditingController empresaControler = TextEditingController();
+final TextEditingController dataInicialControler = TextEditingController();
+final TextEditingController dataFinalControler = TextEditingController();
+final TextEditingController empresaControler = TextEditingController();
 
   String selectedCompany = '';
   String selectServer = '';
-  
+class _HomePageState extends State<HomePage> {
+
   bool nfeSelecionado = false;
   bool nfceSelecionado = false;
   bool carregando = false;
@@ -443,6 +443,7 @@ class _HomePageState extends State<HomePage> {
       }
     }
   }
+
   Widget _buildModeloNotaContainer() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

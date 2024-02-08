@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:Baixar_Xml/db/conexao_monofasico/serjao.dart';
+import 'package:Baixar_Xml/db/conexao_monofasico/stringsMonofasicos.dart';
+import 'package:Baixar_Xml/modulos/carregarDados.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -141,53 +142,66 @@ Future<List<Map<String, dynamic>>> getDadosMonofasicos(
         2,
         Colors.blue.shade800);
     print("Conectado ao banco de dados $db. Executando consulta...");
+
     List<Map<String, dynamic>> dataList = [];
     StringMonofasicos stringMonofasicos = StringMonofasicos();
     String queryString = stringMonofasicos.getString(db);
+    String? diretorioEscolhido = await selecionarDiretorioDestino();
 
-    var results = await conn.query(queryString , [dataInicial, dataFinal]);
+    if (queryString == "") {
+      sendMessage(
+          scaffoldMessenger, 'Cliente não gera monofasico', 3, Colors.blueGrey);
+      return dataList;
+    } else {
+      var results = await conn.query(queryString, [dataInicial, dataFinal]);
 
-    var excel = Excel.createExcel();
-    excel.tables.keys.toList().forEach((key) {
-      if (key != 'Monofasico') {
-        excel.tables.remove(key);
-      }
-    });
+      var excel = Excel.createExcel();
+      excel.tables.keys.toList().forEach((key) {
+        if (key != 'Sheet1') {
+          excel.tables.remove(key);
+        }
+      });
 
-    var sheet = excel['Monofasico'];
+      var sheet = excel['Sheet1'];
 
-    sheet.appendRow([
-      'Nota Fiscal',
-      'Codigo',
-      'Data',
-      'Referencia',
-      'Descricao',
-      'UN',
-      'NCM',
-      'QTD',
-      'Total'
-    ]);
-
-    for (var row in results) {
       sheet.appendRow([
-        row['ide_notafiscal'],
-        row['Codigo'],
-        row['Data'],
-        row['Referencia'],
-        row['Descricao'],
-        row['UN'],
-        row['NCM'],
-        row['QTD'],
-        row['Total']
+        'Nota Fiscal',
+        'Codigo',
+        'Data',
+        'Referencia',
+        'Descricao',
+        'UN',
+        'NCM',
+        'QTD',
+        'Total'
       ]);
-    }
-    var excelBytes = excel.encode();
-    if (excelBytes != null) {
-      File('output.xlsx').writeAsBytesSync(excelBytes);
-    }
-    await Future.delayed(const Duration(seconds: 3));
+      double total = 0;
+      for (var row in results) {
+        sheet.appendRow([
+          row['ide_notafiscal'],
+          row['Codigo'].toString(),
+          row['Data'],
+          row['Referencia'].toString(),
+          row['Descricao'].toString(),
+          row['UN'].toString(),
+          row['NCM'].toString(),
+          row['QTD'],
+          row['Total']
+        ]);
 
-    return dataList;
+        total += row['Total'];
+      }
+      sheet.appendRow(['', '', '', '', '', '', '', '', total]);
+      ajustarLarguraColunas(excel);
+      var excelBytes = excel.encode();
+      if (excelBytes != null) {
+        File('$diretorioEscolhido/Monofasicos.xlsx')
+            .writeAsBytesSync(excelBytes);
+      }
+      await Future.delayed(const Duration(seconds: 3));
+
+      return dataList;
+    }
   } on TimeoutException catch (e) {
     sendMessage(scaffoldMessenger, "A consulta excedeu o tempo limite: $e", 5,
         Colors.red.shade800);
@@ -200,5 +214,25 @@ Future<List<Map<String, dynamic>>> getDadosMonofasicos(
     return [];
   } finally {
     await conn.close();
+  }
+}
+
+void ajustarLarguraColunas(Excel excel) {
+  var sheet = excel['Sheet1'];
+
+  var totalColunas = sheet.maxCols;
+
+  for (var i = 0; i < totalColunas; i++) {
+    var maxWidth = 0;
+
+    for (var row in sheet.rows) {
+      if (row.length > i) {
+        var cellContent = row[i]?.value?.toString() ?? '';
+        if (cellContent.length > maxWidth) {
+          maxWidth = cellContent.length;
+        }
+      }
+    }
+    sheet.setColWidth(i, (maxWidth + 2));
   }
 }

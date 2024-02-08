@@ -145,16 +145,20 @@ Future<List<Map<String, dynamic>>> getDadosMonofasicos(
 
     List<Map<String, dynamic>> dataList = [];
     StringMonofasicos stringMonofasicos = StringMonofasicos();
-    String queryString = stringMonofasicos.getString(db);
     String? diretorioEscolhido = await selecionarDiretorioDestino();
+    String query = stringMonofasicos.getString(db);
 
-    if (queryString == "") {
+    print(query);
+    if (query == "") {
       sendMessage(
           scaffoldMessenger, 'Cliente não gera monofasico', 3, Colors.blueGrey);
       return dataList;
     } else {
-      var results = await conn.query(queryString, [dataInicial, dataFinal]);
 
+      var results =
+          await conn.query(query, [dataInicial, dataFinal]);
+
+      print(results);
       var excel = Excel.createExcel();
       excel.tables.keys.toList().forEach((key) {
         if (key != 'Sheet1') {
@@ -234,5 +238,17 @@ void ajustarLarguraColunas(Excel excel) {
       }
     }
     sheet.setColWidth(i, (maxWidth + 2));
+  }
+}
+
+Future<String?> lerArquivo(String caminho) async {
+  try {
+    var arquivo = File(caminho);
+    var bytes = await arquivo.readAsBytes();
+    var conteudo = utf8.decode(bytes);
+    return conteudo;
+  } catch (e) {
+    print("Erro ao ler o arquivo: $e");
+    return null;
   }
 }

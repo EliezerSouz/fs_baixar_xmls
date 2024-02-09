@@ -10,7 +10,6 @@ class StringMonofasicos {
   String autoLatas = "4,65,32";
   String canezin = "4,20";
   String cardosoAp = "4,30,31,32,58,59,60";
-  String cardosoDist = "4,32,63";
   String codorna = "4,32,68";
   String giomar = "59,77,69";
   String lider = "64,4,32,36";
@@ -34,7 +33,7 @@ class StringMonofasicos {
   String vasquinhoFilial = "30,4,32";
   String primeDist = "86,69";
 
-  String getString(String nomeString) {
+  String getString(String nomeString, {String idEmpresa = '1'}) {
     String listaValores = "";
     switch (nomeString) {
       case 'farsoft_adnaldo':
@@ -80,8 +79,14 @@ class StringMonofasicos {
         listaValores = mesquita.split(',').join(",");
         return queryMonofasico.replaceFirst('?', listaValores);
       case 'farsoft_mianti':
+        if(idEmpresa == '2'){
+          queryMonofasico = queryMonofasico.replaceFirst('ni.empresa_id = 1', 'ni.empresa_id = 2');
+        }
         listaValores = mianti.split(',').join(",");
         return queryMonofasico.replaceFirst('?', listaValores);
+        case 'farsoft_serjao':
+        listaValores = serjao.split(',').join(",");
+        return queryMonofasico.replaceFirst('?',listaValores);
       default:
         return '';
     }

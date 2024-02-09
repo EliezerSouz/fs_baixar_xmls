@@ -146,7 +146,12 @@ Future<List<Map<String, dynamic>>> getDadosMonofasicos(
     List<Map<String, dynamic>> dataList = [];
     StringMonofasicos stringMonofasicos = StringMonofasicos();
     String? diretorioEscolhido = await selecionarDiretorioDestino();
-    String query = stringMonofasicos.getString(db);
+    String query;
+    if (nomeCliente == 'Mianti Filial') {
+      query = stringMonofasicos.getString(db, idEmpresa: '2');
+    } else {
+      query = stringMonofasicos.getString(db);
+    }
 
     print(query);
     if (query == "") {
@@ -154,9 +159,7 @@ Future<List<Map<String, dynamic>>> getDadosMonofasicos(
           scaffoldMessenger, 'Cliente não gera monofasico', 3, Colors.blueGrey);
       return dataList;
     } else {
-
-      var results =
-          await conn.query(query, [dataInicial, dataFinal]);
+      var results = await conn.query(query, [dataInicial, dataFinal]);
 
       print(results);
       var excel = Excel.createExcel();

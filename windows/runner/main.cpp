@@ -27,7 +27,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prev,
   
   // Calcular a posição central para a janela
   Win32Window::Point origin(600,150);
-  Win32Window::Size size(600, 770);
+  Win32Window::Size size(600, 780);
   if (!window.Create(L"Baixar_XML", origin, size)) {
     return EXIT_FAILURE;
   }

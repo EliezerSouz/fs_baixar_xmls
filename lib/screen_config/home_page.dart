@@ -15,10 +15,10 @@ final TextEditingController dataInicialControler = TextEditingController();
 final TextEditingController dataFinalControler = TextEditingController();
 final TextEditingController empresaControler = TextEditingController();
 
-  String selectedCompany = '';
-  String selectServer = '';
-class _HomePageState extends State<HomePage> {
+String selectedCompany = '';
+String selectServer = '';
 
+class _HomePageState extends State<HomePage> {
   bool nfeSelecionado = false;
   bool nfceSelecionado = false;
   bool carregando = false;
@@ -60,15 +60,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Center(
-          child: Text(
-            'Download de Xmls',
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-        ),
-        backgroundColor: Colors.blue.shade800,
-      ),
       body: Padding(
         padding: const EdgeInsets.all(35),
         child: Container(
@@ -77,6 +68,7 @@ class _HomePageState extends State<HomePage> {
             border: Border.all(color: Colors.white),
             borderRadius: BorderRadius.circular(8),
           ),
+          
           child: ListView(
             shrinkWrap: true,
             padding: const EdgeInsets.all(14),

@@ -13,9 +13,6 @@ class MonofasicoPage extends StatefulWidget {
 }
 
 class _MonofasicoPageState extends State<MonofasicoPage> {
-
-  //String selectedCompany = '';
-  //String selectServer = '';  
   bool carregando = false;
 
   Future<void> _selecionarDataInicial(BuildContext context) async {
@@ -55,15 +52,6 @@ class _MonofasicoPageState extends State<MonofasicoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Center(
-          child: Text(
-            'Download de Xmls',
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-        ),
-        backgroundColor: Colors.blue.shade800,
-      ),
       body: Padding(
         padding: const EdgeInsets.all(35),
         child: Container(
@@ -140,7 +128,6 @@ class _MonofasicoPageState extends State<MonofasicoPage> {
                   });
                 },
               ),
-              
               const SizedBox(height: 14),
               ElevatedButton(
                 onPressed: () async {

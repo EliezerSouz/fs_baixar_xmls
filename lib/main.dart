@@ -1,11 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:Baixar_Xml/screen_config/home_page.dart';
 import 'package:Baixar_Xml/screen_config/monofasico_page.dart';
-import 'package:flutter/material.dart';
 
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,18 +17,34 @@ class MyApp extends StatelessWidget {
 }
 
 class NavigationScreen extends StatefulWidget {
-  const NavigationScreen({super.key});
+  const NavigationScreen({Key? key}) : super(key: key);
 
   @override
   _NavigationScreenState createState() => _NavigationScreenState();
 }
 
-class _NavigationScreenState extends State<NavigationScreen> {
+class _NavigationScreenState extends State<NavigationScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
   int _selectedIndex = 0;
 
-  final List<Widget> _screens = [
-    const HomePage(),
-    //XmlScreen(),
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 100),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  final List<Widget> _screens = const [
+    HomePage(),
     MonofasicoPage(),
   ];
 
@@ -36,30 +52,69 @@ class _NavigationScreenState extends State<NavigationScreen> {
     setState(() {
       _selectedIndex = index;
     });
+    _controller.reverse();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: _screens,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.download),
-            label: 'Download XML',
+      body: Row(
+        children: <Widget>[
+          AnimatedBuilder(
+            animation: _controller,
+            builder: (context, _) {
+              return SizedBox(
+                width: _controller.value * 200, // Largura máxima do Drawer
+                child: Drawer(
+                  backgroundColor: Colors.blue.shade800,
+                  child: ListView(
+                    children: <Widget>[
+                      ListTile(
+                        title: Text(
+                          'XML',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onTap: () {
+                          _onItemTapped(0);
+                        },
+                      ),
+                      ListTile(
+                        title: Text(
+                          'Monofásico',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onTap: () {
+                          _onItemTapped(1);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.article),
-            label: 'Monofásicos',
+          VerticalDivider(width: 1),
+          Expanded(
+            child: _screens[_selectedIndex],
           ),
         ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.white,
-        onTap: _onItemTapped,
-        backgroundColor: Colors.blue.shade900,
+      ),
+      appBar: AppBar(
+        title: const Center(
+          child: Text(
+            'Xmls e Monofásicos',
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.menu, color: Colors.white),
+          onPressed: () {
+            _controller.isDismissed
+                ? _controller.forward()
+                : _controller.reverse();
+          },
+        ),
+        backgroundColor: Colors.blue.shade800,
       ),
     );
   }

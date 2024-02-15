@@ -6,29 +6,39 @@ class NFe {
   late String razaoSocial;
   late String chaveAcesso;
 
-  // ... adicione outros campos conforme necessário
-
   NFe();
 
   NFe.fromXml(XmlElement element) {
     final infNFeElement = element.findElements('infNFe').firstOrNull;
+    final inutNFe = element.findElements('retInutNFe').firstOrNull;
+
     if (infNFeElement != null) {
       final ideElement = infNFeElement.findElements('ide').firstOrNull;
       final emitElement = infNFeElement.findElements('emit').firstOrNull;
 
       if (ideElement != null) {
         mod = _getChildText(ideElement, 'mod');
-        chaveAcesso = _getChildAttribute(infNFeElement, 'Id').substring(3);        
+        chaveAcesso = _getChildAttribute(infNFeElement, 'Id').substring(3);
       } else {
         print('ide Element Not Found');
       }
-
       if (emitElement != null) {
         CNPJ = _getChildText(emitElement, 'CNPJ');
         razaoSocial = _getChildText(emitElement, 'xFant');
       }
+    } else if (inutNFe != null) {
+      final infInut = inutNFe.findElements('infInut').firstOrNull;
+      if (infInut != null) {
+        CNPJ = _getChildText(infInut, 'CNPJ');
+        chaveAcesso = _getChildAttribute(infInut, 'Id').substring(2);
+        mod = _getChildText(infInut, 'mod');
+        razaoSocial = _getChildText(infInut,'dhRecbto');
+        print(CNPJ);
+      } else {
+        print("Elemento 'infInut' não encontrado.");
+      }
     } else {
-      print('infNFe Element Not Found');
+      print("Elemento 'inutNFe' não encontrado.");
     }
   }
 

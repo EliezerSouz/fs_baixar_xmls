@@ -33,18 +33,28 @@ Future<void> carregarDadosXml(
       final xmlString = xmlDocument.toXmlString();
       final document = XmlDocument.parse(xmlString);
       var nFeElement = document.rootElement.findElements('NFe').firstOrNull;
-      if (nFeElement == null) {
-        nFeElement = document.root.findElements('NFe').firstOrNull;
-      }
-      final statusNf = xml['fs_fase'];
 
+      final statusNf = xml['fs_fase'];
+      if (nFeElement == null) {
+        if (statusNf != '999') {
+          nFeElement = document.root.findElements('NFe').firstOrNull;
+        } else {
+          nFeElement = document.root.findElements('ProcInutNFe').firstOrNull;
+        }
+      }
       if (nFeElement != null) {
         String caminhoDoArquivo = diretorioEscolhido;
-        //String caminhoDoArquivo = path.join('xmls');
         final nfe = NFe.fromXml(nFeElement);
         modNfe = nfe.mod;
+
+        if (statusNf == '999') {
+          chaveAcesso = nfe.chaveAcesso;
+          vigenciaXml = '${nfe.razaoSocial.replaceAll('-', '').substring(0, 6)}';
+        }
+        else{          
         chaveAcesso = nfe.chaveAcesso;
         vigenciaXml = '20${chaveAcesso.substring(2, 6)}';
+        }
         cnpj = nfe.CNPJ;
         filename = '${chaveAcesso}.xml';
         caminhoDoArquivo +=
@@ -59,6 +69,8 @@ Future<void> carregarDadosXml(
           caminhoDoArquivo += '/Denegadas';
         } else if (statusNf == '07') {
           caminhoDoArquivo += '/Canceladas';
+        } else if (statusNf == "999") {
+          caminhoDoArquivo += '/Inutilizadas';
         } else {
           caminhoDoArquivo += '/Autorizadas';
         }

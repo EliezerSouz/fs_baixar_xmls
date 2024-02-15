@@ -52,6 +52,7 @@ Future<List<Map<String, dynamic>>> getDadosXmls(
         });
         i++;
       }
+      
       sendMessage(scaffoldMessenger, "Total NFe: $i", 1, Colors.blue.shade800);
       print("Total NFe: $i.");
       total += i;
@@ -76,6 +77,28 @@ Future<List<Map<String, dynamic>>> getDadosXmls(
         });
         i++;
       }
+      results = await conn.query(
+        """select n.nota, n.xml, n.modelo from nota_inutilizacao n 
+              where n.xml is not null 
+                AND n.data BETWEEN ? AND ? 
+                AND modelo IN (65) 
+              ORDER BY n.nota;""",
+        [dataInicial, dataFinal],
+      );
+
+      for (var row in results) {
+        var xmlBlob = row.fields['xml']
+            as Blob; 
+        var xmlString = utf8.decode(Uint8List.fromList(xmlBlob.toBytes()));
+
+        dataList.add({
+          'xml_final': xmlString,
+          'fs_fase': "999",
+          'emissor': "P",
+        });
+        i++;
+      }
+
       total += i;
       sendMessage(scaffoldMessenger, "Total NFCe: $i", 1, Colors.blue.shade800);
       print("Total NFCe: $i. Cliente $db.");

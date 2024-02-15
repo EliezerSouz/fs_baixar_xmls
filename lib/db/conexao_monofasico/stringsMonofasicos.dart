@@ -8,6 +8,7 @@ class StringMonofasicos {
   String apSaoGeraldo = "4,61,32";
   String santaRita = "4,32,60,62";
   String autoLatas = "4,65,32";
+  String autoVale = "4";
   String canezin = "4,20";
   String cardosoAp = "4,30,31,32,58,59,60";
   String codorna = "4,32,68";
@@ -38,6 +39,9 @@ class StringMonofasicos {
     switch (nomeString) {
       case 'farsoft_adnaldo':
         listaValores = adnaldo.split(',').join(",");
+        return queryMonofasico.replaceFirst('?', listaValores);
+      case 'farsoft_autovalepecas':
+        listaValores = autoVale.split(',').join(",");
         return queryMonofasico.replaceFirst('?', listaValores);
       case 'farsoft_apalfenas':
         listaValores = apAlfenas.split(',').join(",");
@@ -87,6 +91,36 @@ class StringMonofasicos {
         case 'farsoft_serjao':
         listaValores = serjao.split(',').join(",");
         return queryMonofasico.replaceFirst('?',listaValores);
+      case 'farsoft_motoshowboutique':
+        listaValores = motoShowBoutique.split(',').join((","));
+        return queryMonofasico.replaceFirst('?', listaValores);
+      case 'farsoft_motoshow':
+        listaValores = motoShowPA.split(',').join(",");
+        return queryMonofasico.replaceFirst('?', listaValores);
+      case 'farsoft_oespecialista':
+        listaValores = oEspecialista.split(',').join(",");
+        return queryMonofasico.replaceFirst('?', listaValores);
+      case 'farsoft_pertto':
+        listaValores = peretto.split(',').join(",");
+        return queryMonofasico.replaceFirst('?', listaValores);
+      case 'farsoft_perimetral':
+        listaValores = perimetral.split(',').join(",");
+        return queryMonofasico.replaceFirst('?', listaValores);
+      case 'farsoft_postodemolas':
+        listaValores = postoDeMolas.split(',').join(",");
+        return queryMonofasico.replaceFirst('?', listaValores);
+      case 'farsoft_reyautopecas':
+        listaValores = reyAutoPecas.split(',').join(",");
+        return queryMonofasico.replaceFirst('?', listaValores);
+      case 'farsoft_shoppingautomotivo':
+        listaValores = shoppingAutomotivo.split(',').join(",");
+        return queryMonofasico.replaceFirst('?', listaValores);
+      case 'farsoft_vasquinhofilial':
+        listaValores = vasquinhoFilial.split(',').join(",");
+        return queryMonofasico.replaceFirst('?', listaValores);
+      case 'farsoft_vasquinho':
+        listaValores = vasquinho.split(',').join(",");
+        return queryMonofasico.replaceFirst('?', listaValores);      
       default:
         return '';
     }

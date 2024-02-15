@@ -33,7 +33,7 @@ class _NavigationScreenState extends State<NavigationScreen>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 100),
+      duration: Duration(milliseconds: 150),
     );
   }
 
@@ -64,7 +64,7 @@ class _NavigationScreenState extends State<NavigationScreen>
             animation: _controller,
             builder: (context, _) {
               return SizedBox(
-                width: _controller.value * 200, // Largura máxima do Drawer
+                width: _controller.value * 250, // Largura máxima do Drawer
                 child: Drawer(
                   backgroundColor: Colors.blue.shade800,
                   child: ListView(

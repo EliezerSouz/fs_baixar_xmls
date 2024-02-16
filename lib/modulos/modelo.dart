@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names, avoid_print, deprecated_member_use
+
 import 'package:xml/xml.dart';
 
 class NFe {

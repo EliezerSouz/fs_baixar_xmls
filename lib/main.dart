@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:Baixar_Xml/screen_config/home_page.dart';
 import 'package:Baixar_Xml/screen_config/monofasico_page.dart';
@@ -9,9 +11,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const NavigationScreen(),
+      home: NavigationScreen(),
     );
   }
 }
@@ -33,7 +35,7 @@ class _NavigationScreenState extends State<NavigationScreen>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 150),
+      duration: const Duration(milliseconds: 150),
     );
   }
 
@@ -70,7 +72,7 @@ class _NavigationScreenState extends State<NavigationScreen>
                   child: ListView(
                     children: <Widget>[
                       ListTile(
-                        title: Text(
+                        title: const Text(
                           'XML',
                           style: TextStyle(color: Colors.white),
                         ),
@@ -79,7 +81,7 @@ class _NavigationScreenState extends State<NavigationScreen>
                         },
                       ),
                       ListTile(
-                        title: Text(
+                        title: const Text(
                           'Monofásico',
                           style: TextStyle(color: Colors.white),
                         ),
@@ -93,7 +95,7 @@ class _NavigationScreenState extends State<NavigationScreen>
               );
             },
           ),
-          VerticalDivider(width: 1),
+          const VerticalDivider(width: 1),
           Expanded(
             child: _screens[_selectedIndex],
           ),
@@ -107,7 +109,7 @@ class _NavigationScreenState extends State<NavigationScreen>
           ),
         ),
         leading: IconButton(
-          icon: Icon(Icons.menu, color: Colors.white),
+          icon: const Icon(Icons.menu, color: Colors.white),
           onPressed: () {
             _controller.isDismissed
                 ? _controller.forward()

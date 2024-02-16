@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, no_leading_underscores_for_local_identifiers, unnecessary_string_interpolations, prefer_interpolation_to_compose_strings, avoid_print
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:xml/xml.dart';
@@ -56,9 +58,9 @@ Future<void> carregarDadosXml(
         vigenciaXml = '20${chaveAcesso.substring(2, 6)}';
         }
         cnpj = nfe.CNPJ;
-        filename = '${chaveAcesso}.xml';
+        filename = '$chaveAcesso.xml';
         caminhoDoArquivo +=
-            '/' + _nomeCliente + ' - ' + cnpj + '/' + vigenciaXml;
+            '${'/' + _nomeCliente} - $cnpj/$vigenciaXml';
 
         if (modNfe == '55') {
           caminhoDoArquivo += '/NFe';

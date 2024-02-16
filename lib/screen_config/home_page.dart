@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors, library_private_types_in_public_api, avoid_print
+
 import 'package:Baixar_Xml/acessos/carregar_conexao.dart';
 import 'package:Baixar_Xml/acessos/class.dart';
 import 'package:flutter/material.dart';
@@ -179,11 +181,9 @@ class _HomePageState extends State<HomePage> {
                 future: _downloadXmls,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Container(
-                      child: CircularProgressIndicator(
-                        color: Colors.blueGrey.shade800,
-                        backgroundColor: Colors.white,
-                      ),
+                    return CircularProgressIndicator(
+                      color: Colors.blueGrey.shade800,
+                      backgroundColor: Colors.white,
                     );
                   } else if (snapshot.hasError) {
                     return Center(
@@ -231,7 +231,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 14,
             ),
@@ -250,7 +250,7 @@ class _HomePageState extends State<HomePage> {
                     onChanged(value);
                     empresaControler.text = value;
                   },
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Nome do Banco de Dados',
                   ),
                 ),
@@ -265,7 +265,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 14,
             ),
@@ -300,7 +300,7 @@ class _HomePageState extends State<HomePage> {
       children: [
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 14,
           ),
@@ -350,7 +350,7 @@ class _HomePageState extends State<HomePage> {
           await carregarDadosXml(
               dadosServidor[0],
               dadosServidor[1],
-              '$nomeBanco',
+              nomeBanco,
               dadosServidor[2],
               dataInicialControler.text,
               dataFinalControler.text,
@@ -404,7 +404,7 @@ class _HomePageState extends State<HomePage> {
       final int diferencaEmMeses =
           dataFinal.difference(dataInicial).inDays ~/ 30;
       final int diferencaDias = dataFinal.difference(dataInicial).inDays;
-      if (diferencaEmMeses > 6) {
+      if (diferencaEmMeses >= 6 && diferencaDias >= 185) {
         // Mostrar uma mensagem na tela
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -436,41 +436,4 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Widget _buildModeloNotaContainer() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Modelo Nota',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 14.0,
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(8.0),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.white),
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildCheckBox('NFe', nfeSelecionado, (value) {
-                setState(() {
-                  nfeSelecionado = value ?? false;
-                });
-              }),
-              _buildCheckBox('NFCe', nfceSelecionado, (value) {
-                setState(() {
-                  nfceSelecionado = value ?? false;
-                });
-              }),
-            ],
-          ),
-        ),
-        const SizedBox(height: 14),
-      ],
-    );
-  }
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors, library_private_types_in_public_api, avoid_print
+
 import 'package:Baixar_Xml/acessos/carregar_conexao.dart';
 import 'package:Baixar_Xml/acessos/class.dart';
 import 'package:Baixar_Xml/screen_config/home_page.dart';
@@ -140,15 +142,13 @@ class _MonofasicoPageState extends State<MonofasicoPage> {
                 future: _downloadXmls,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Container(
-                      child: CircularProgressIndicator(
-                        color: Colors.blueGrey.shade800,
-                        backgroundColor: Colors.white,
-                      ),
+                    return CircularProgressIndicator(
+                      color: Colors.blueGrey.shade800,
+                      backgroundColor: Colors.white,
                     );
                   } else if (snapshot.hasError) {
                     return Center(
-                      child: Text('Erro ao baixar XMLs: ${snapshot.error}'),
+                      child: Text('Erro ao gerar arquivo: ${snapshot.error}'),
                     );
                   } else {
                     return const SizedBox.shrink();
@@ -163,14 +163,6 @@ class _MonofasicoPageState extends State<MonofasicoPage> {
     );
   }
 
-  Widget _buildCheckBox(
-      String title, bool value, ValueChanged<bool?> onChanged) {
-    return CheckboxListTile(
-      title: Text(title),
-      value: value,
-      onChanged: onChanged,
-    );
-  }
 
   Widget _buildComboBox(String title, List<String> options,
       String selectedOption, ValueChanged<String?> onChanged) {
@@ -192,7 +184,7 @@ class _MonofasicoPageState extends State<MonofasicoPage> {
         children: [
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 14,
             ),
@@ -211,7 +203,7 @@ class _MonofasicoPageState extends State<MonofasicoPage> {
                     onChanged(value);
                     empresaControler.text = value;
                   },
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Banco de Dados',
                   ),
                 ),
@@ -226,7 +218,7 @@ class _MonofasicoPageState extends State<MonofasicoPage> {
         children: [
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 14,
             ),
@@ -261,7 +253,7 @@ class _MonofasicoPageState extends State<MonofasicoPage> {
       children: [
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 14,
           ),
@@ -303,7 +295,7 @@ class _MonofasicoPageState extends State<MonofasicoPage> {
           await carregarDadosMonofasico(
               dadosServidor[0],
               dadosServidor[1],
-              '$nomeBanco',
+              nomeBanco,
               dadosServidor[2],
               dataInicialControler.text,
               dataFinalControler.text,

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -36,7 +38,13 @@ Future<List<Map<String, dynamic>>> getDadosXmls(
 
     if (nfe != "") {
       var results = await conn.query(
-        "select nx.xml_final, n.fs_fase, nx.emissor from nota_cabecalho n join nota_xml nx on nx.nota_cabecalho_id = n.id where nx.xml_final is not null AND n.ide_demi BETWEEN ? AND ? AND emissor IN ('P') AND modelo IN (55) ORDER BY data_nota;",
+        """select nx.xml_final, n.fs_fase, nx.emissor from nota_cabecalho n 
+        join nota_xml nx on nx.nota_cabecalho_id = n.id 
+        where nx.xml_final is not null 
+          AND n.ide_demi BETWEEN ? AND ? 
+          AND emissor IN ('P') 
+          AND modelo IN (55) 
+        ORDER BY data_nota;""",
         [dataInicial, dataFinal],
       );
 
@@ -52,7 +60,7 @@ Future<List<Map<String, dynamic>>> getDadosXmls(
         });
         i++;
       }
-      
+
       sendMessage(scaffoldMessenger, "Total NFe: $i", 1, Colors.blue.shade800);
       print("Total NFe: $i.");
       total += i;
@@ -61,7 +69,13 @@ Future<List<Map<String, dynamic>>> getDadosXmls(
 
     if (nfce != "") {
       var results = await conn.query(
-        "select nx.xml_final, n.fs_fase, nx.emissor from nota_cabecalho n join nota_xml nx on nx.nota_cabecalho_id = n.id where nx.xml_final is not null AND n.ide_demi BETWEEN ? AND ? AND emissor IN ('P') AND modelo IN (65) ORDER BY data_nota;",
+        """select nx.xml_final, n.fs_fase, nx.emissor from nota_cabecalho n 
+        join nota_xml nx on nx.nota_cabecalho_id = n.id 
+        where nx.xml_final is not null 
+          AND n.ide_demi BETWEEN ? AND ? 
+          AND emissor IN ('P') 
+          AND modelo IN (65) 
+        ORDER BY data_nota;""",
         [dataInicial, dataFinal],
       );
 
@@ -87,8 +101,7 @@ Future<List<Map<String, dynamic>>> getDadosXmls(
       );
 
       for (var row in results) {
-        var xmlBlob = row.fields['xml']
-            as Blob; 
+        var xmlBlob = row.fields['xml'] as Blob;
         var xmlString = utf8.decode(Uint8List.fromList(xmlBlob.toBytes()));
 
         dataList.add({
@@ -168,7 +181,6 @@ Future<List<Map<String, dynamic>>> getDadosMonofasicos(
 
     List<Map<String, dynamic>> dataList = [];
     StringMonofasicos stringMonofasicos = StringMonofasicos();
-    String? diretorioEscolhido = await selecionarDiretorioDestino();
     String query;
     if (nomeCliente == 'Mianti Filial') {
       query = stringMonofasicos.getString(db, idEmpresa: '2');
@@ -223,12 +235,22 @@ Future<List<Map<String, dynamic>>> getDadosMonofasicos(
       }
       sheet.appendRow(['', '', '', '', '', '', '', '', total]);
       ajustarLarguraColunas(excel);
-      var excelBytes = excel.encode();
-      if (excelBytes != null) {
-        File('$diretorioEscolhido/Monofasicos.xlsx')
-            .writeAsBytesSync(excelBytes);
+
+      String? diretorioEscolhido = await selecionarDiretorioDestino();
+
+      if (diretorioEscolhido != null) {
+        var excelBytes = excel.encode();
+        if (excelBytes != null) {
+          File('$diretorioEscolhido/Monofasicos.xlsx')
+              .writeAsBytesSync(excelBytes);
+        }
+        await Future.delayed(const Duration(seconds: 3));
+        sendMessage(
+            scaffoldMessenger,
+            'Monofásico gerado em $diretorioEscolhido',
+            3,
+            Colors.blue.shade800);
       }
-      await Future.delayed(const Duration(seconds: 3));
 
       return dataList;
     }

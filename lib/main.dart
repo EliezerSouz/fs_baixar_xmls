@@ -68,7 +68,7 @@ class _NavigationScreenState extends State<NavigationScreen>
               return SizedBox(
                 width: _controller.value * 250, // Largura máxima do Drawer
                 child: Drawer(
-                  backgroundColor: Colors.blue.shade800,
+                  backgroundColor: Colors.blue.shade500,
                   child: ListView(
                     children: <Widget>[
                       ListTile(

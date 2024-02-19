@@ -218,22 +218,26 @@ Future<List<Map<String, dynamic>>> getDadosMonofasicos(
         'Total'
       ]);
       double total = 0;
+      var currencyFormatter =
+          NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$');
+      var dateFormatter = DateFormat('dd/MM/yyyy');
       for (var row in results) {
         sheet.appendRow([
           row['ide_notafiscal'],
           row['Codigo'].toString(),
-          row['Data'],
+          dateFormatter.format(row['Data']),
           row['Referencia'].toString(),
           row['Descricao'].toString(),
           row['UN'].toString(),
           row['NCM'].toString(),
-          row['QTD'],
-          row['Total']
+          row['QTD'].toString(),
+          currencyFormatter.format(row['Total'])
         ]);
 
         total += row['Total'];
       }
-      sheet.appendRow(['', '', '', '', '', '', '', '', total]);
+      sheet.appendRow(
+          ['', '', '', '', '', '', '', '', currencyFormatter.format(total)]);
       ajustarLarguraColunas(excel);
 
       String? diretorioEscolhido = await selecionarDiretorioDestino();

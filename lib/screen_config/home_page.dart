@@ -23,6 +23,7 @@ String selectServer = '';
 class _HomePageState extends State<HomePage> {
   bool nfeSelecionado = false;
   bool nfceSelecionado = false;
+  bool terceiroSelecionado = false;
   bool carregando = false;
 
   Future<void> _selecionarDataInicial(BuildContext context) async {
@@ -66,11 +67,10 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.all(35),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.blue.shade400,
+            color: Colors.blue.shade500,
             border: Border.all(color: Colors.white),
             borderRadius: BorderRadius.circular(8),
           ),
-          
           child: ListView(
             shrinkWrap: true,
             padding: const EdgeInsets.all(14),
@@ -251,7 +251,7 @@ class _HomePageState extends State<HomePage> {
                     empresaControler.text = value;
                   },
                   decoration: const InputDecoration(
-                    labelText: 'Nome do Banco de Dados',
+                    labelText: 'Banco de Dados',
                   ),
                 ),
               ],
@@ -389,9 +389,8 @@ class _HomePageState extends State<HomePage> {
     if (dataFinalControler.text == '' || dataInicialControler.text == '') {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Center(
-              child: Text(
-                  'Obrigatório informar Data Inicial e Data Final para consulta.')),
+          content:
+              Center(child: Text('Selecione a Data Inicial e a Data Final.')),
           duration: Duration(seconds: 5),
           backgroundColor: Colors.red,
         ),
@@ -435,5 +434,4 @@ class _HomePageState extends State<HomePage> {
       }
     }
   }
-
 }

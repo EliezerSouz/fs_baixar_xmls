@@ -26,8 +26,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prev,
   FlutterWindow window(project);
   
   // Calcular a posição central para a janela
-  Win32Window::Point origin(600,150);
-  Win32Window::Size size(600, 780);
+  Win32Window::Point origin(200,100);
+  Win32Window::Size size(1280, 860);
   if (!window.Create(L"Baixar_XML", origin, size)) {
     return EXIT_FAILURE;
   }
